@@ -23,3 +23,5 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+/src/test/resources/amex_file.csv
