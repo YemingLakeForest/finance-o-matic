@@ -9,6 +9,7 @@ import java.time.Instant;
 @Setter
 public class StatementRecord {
 
+    private String id;
     private Source source;
     private String vendor;
     private String category;

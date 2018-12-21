@@ -1,11 +1,11 @@
 package net.mingism.financeomatic.service;
 
 import com.opencsv.CSVReader;
+import lombok.RequiredArgsConstructor;
 import net.mingism.financeomatic.domain.Source;
 import net.mingism.financeomatic.domain.StatementRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileReader;
@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import static java.time.ZoneOffset.UTC;
 
 @Service
+@RequiredArgsConstructor
 public class AmexCsvImportService implements CsvImportService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AmexCsvImportService.class);
@@ -34,10 +35,6 @@ public class AmexCsvImportService implements CsvImportService {
 
     private final CategoryDictionaryImporter categoryDictionaryImporter;
 
-    @Autowired
-    public AmexCsvImportService(CategoryDictionaryImporter categoryDictionaryImporter) {
-        this.categoryDictionaryImporter = categoryDictionaryImporter;
-    }
 
     @Override
     public List<StatementRecord> importFrom(String csvFile) {
@@ -54,6 +51,7 @@ public class AmexCsvImportService implements CsvImportService {
                 statementRecord.setAmount(Double.valueOf(value[2].replace("\"", "").trim()));
                 statementRecord.setVendor(value[3].trim());
                 statementRecord.setDate(UTC_FORMATTER.parse(value[0], Instant::from));
+                statementRecord.setId(value[1].replace("\"", "").split(" ")[1]);
 
                 categoryDictionary.forEach((key, category) -> {
                     if (statementRecord.getVendor().contains(key)) {
