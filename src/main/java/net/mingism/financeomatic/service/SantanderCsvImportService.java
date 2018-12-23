@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,10 @@ import java.util.stream.Collectors;
 
 import static java.time.ZoneOffset.UTC;
 
+
 @Service
 @RequiredArgsConstructor
-public class AmexCsvImportService implements CsvImportService {
+public class SantanderCsvImportService implements CsvImportService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AmexCsvImportService.class);
 
@@ -33,26 +35,27 @@ public class AmexCsvImportService implements CsvImportService {
             .toFormatter()
             .withZone(UTC);
 
+
     private final CategoryDictionaryImporter categoryDictionaryImporter;
 
 
     @Override
     public List<StatementRecord> importFrom(String csvFile) {
 
-
         Map<String, String> categoryDictionary = categoryDictionaryImporter.importFile();
         try {
             // todo: use that builder thingy
-            List<String[]> values = new CSVReader(new FileReader(csvFile)).readAll();
+            List<String[]> values = new CSVReader(new FileReader(csvFile), ';').readAll();
+
             LOGGER.trace("Parsed csv values {}", values.toString());
 
             return values.stream().map(value -> {
                 StatementRecord statementRecord = new StatementRecord();
-                statementRecord.setSource(Source.AMEX);
-                statementRecord.setAmount(Double.valueOf(value[2].replace("\"", "").trim()));
-                statementRecord.setVendor(value[3].trim());
+                statementRecord.setSource(Source.SANTANDER);
+                statementRecord.setAmount(Double.valueOf(value[3].replace("£", "")));
+                statementRecord.setVendor(value[2].trim());
                 statementRecord.setDate(UTC_FORMATTER.parse(value[0], Instant::from));
-                statementRecord.setId(value[1].replace("\"", "").split(" ")[1]);
+                statementRecord.setId(Arrays.toString(value));
 
                 categoryDictionary.forEach((key, category) -> {
                     if (statementRecord.getVendor().contains(key)) {
