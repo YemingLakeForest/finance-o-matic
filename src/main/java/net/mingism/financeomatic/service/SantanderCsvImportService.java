@@ -47,26 +47,29 @@ public class SantanderCsvImportService implements CsvImportService {
             // todo: use that builder thingy
             List<String[]> values = new CSVReader(new FileReader(csvFile), ';').readAll();
 
-            LOGGER.trace("Parsed csv values {}", values.toString());
+            return values.stream().skip(1)
+                    .filter(value -> value.length >= 5)
+                    .map(value -> {
 
-            return values.stream().map(value -> {
-                StatementRecord statementRecord = new StatementRecord();
-                statementRecord.setSource(Source.SANTANDER);
-                statementRecord.setAmount(Double.valueOf(value[3].replace("£", "")));
-                statementRecord.setVendor(value[2].trim());
-                statementRecord.setDate(UTC_FORMATTER.parse(value[0], Instant::from));
-                statementRecord.setId(Arrays.toString(value));
+                        LOGGER.trace("Parsed csv values {}", Arrays.toString(value));
 
-                categoryDictionary.forEach((key, category) -> {
-                    if (statementRecord.getVendor().contains(key)) {
-                        statementRecord.setCategory(category);
-                    }
-                });
+                        StatementRecord statementRecord = new StatementRecord();
+                        statementRecord.setSource(Source.SANTANDER);
+                        statementRecord.setAmount(Double.valueOf(value[3].replaceAll("[^\\x00-\\x7F]", "")));
+                        statementRecord.setVendor(value[2].trim());
+                        statementRecord.setDate(UTC_FORMATTER.parse(value[0], Instant::from));
+                        statementRecord.setId(Arrays.toString(value)); //todo generate some better key
 
-                return statementRecord;
-            }).collect(Collectors.toList());
+                        categoryDictionary.forEach((key, category) -> {
+                            if (statementRecord.getVendor().contains(key)) {
+                                statementRecord.setCategory(category);
+                            }
+                        });
 
-        } catch (IOException e) {
+                        return statementRecord;
+                    }).collect(Collectors.toList());
+
+        } catch (IOException | ArrayIndexOutOfBoundsException e) {
             LOGGER.error(e.getLocalizedMessage(), e);
             return Collections.emptyList();
         }

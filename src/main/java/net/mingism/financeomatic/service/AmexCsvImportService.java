@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -44,9 +45,11 @@ public class AmexCsvImportService implements CsvImportService {
         try {
             // todo: use that builder thingy
             List<String[]> values = new CSVReader(new FileReader(csvFile)).readAll();
-            LOGGER.trace("Parsed csv values {}", values.toString());
 
             return values.stream().map(value -> {
+
+                LOGGER.trace("Parsed csv values {}", Arrays.toString(value));
+
                 StatementRecord statementRecord = new StatementRecord();
                 statementRecord.setSource(Source.AMEX);
                 statementRecord.setAmount(Double.valueOf(value[2].replace("\"", "").trim()));

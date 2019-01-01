@@ -23,14 +23,18 @@ public class FileImportAndDumpService {
     private static final Logger LOGGER = LoggerFactory.getLogger( FileImportAndDumpService.class );
 
     private final AmexCsvImportService amexCsvImportService;
+    private final SantanderCsvImportService santanderCsvImportService;
 
     @PostConstruct
     public void importAndDump() {
-        List<StatementRecord> records = amexCsvImportService.importFrom("src/test/resources/amex_file.csv");
+        List<StatementRecord> amexRecords = amexCsvImportService.importFrom("src/test/resources/amex_file.csv");
+        List<StatementRecord> santanderRecords = santanderCsvImportService.importFrom("src/test/resources/santander_file.csv");
+
+        amexRecords.addAll(santanderRecords);
 
         try (Writer writer = new FileWriter("somefile.csv")){
             StatefulBeanToCsv<StatementRecord> beanToCsv = new StatefulBeanToCsvBuilder(writer).build();
-            beanToCsv.write(records);
+            beanToCsv.write(amexRecords);
         }  catch (IOException | CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
             LOGGER.error(e.getLocalizedMessage(), e);
         }

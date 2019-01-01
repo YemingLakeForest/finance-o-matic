@@ -25,3 +25,4 @@
 /.nb-gradle/
 
 /src/test/resources/amex_file.csv
+/src/test/resources/santander_file.csv
