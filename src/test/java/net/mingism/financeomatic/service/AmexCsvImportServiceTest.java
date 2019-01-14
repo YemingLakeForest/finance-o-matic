@@ -10,7 +10,7 @@ public class AmexCsvImportServiceTest {
     @Before
     public void setup() {
         CategoryDictionaryImporter categoryDictionaryImporter = new CsvCategoryDictionaryImporter();
-        categoryDictionaryImporter.setFileName("src/test/resources/category_dictionary.csv");
+        categoryDictionaryImporter.setFileName("src/test/resources/category_dictionary_test.csv");
 
         cut = new AmexCsvImportService(categoryDictionaryImporter);
     }

@@ -48,14 +48,18 @@ public class SantanderCsvImportService implements CsvImportService {
             List<String[]> values = new CSVReader(new FileReader(csvFile), ';').readAll();
 
             return values.stream().skip(1)
-                    .filter(value -> value.length >= 5)
+                    .filter(value -> value.length >= 4)
                     .map(value -> {
 
                         LOGGER.trace("Parsed csv values {}", Arrays.toString(value));
 
                         StatementRecord statementRecord = new StatementRecord();
                         statementRecord.setSource(Source.SANTANDER);
-                        statementRecord.setAmount(Double.valueOf(value[3].replaceAll("[^\\x00-\\x7F]", "")));
+                        statementRecord.setAmount(Double.valueOf(
+                                value[3]
+                                        .replaceAll("[^\\x00-\\x7F]", "")
+                                        .replace("Ł", "")
+                                        .replace(",", "")));
                         statementRecord.setVendor(value[2].trim());
                         statementRecord.setDate(UTC_FORMATTER.parse(value[0], Instant::from));
                         statementRecord.setId(Arrays.toString(value)); //todo generate some better key
