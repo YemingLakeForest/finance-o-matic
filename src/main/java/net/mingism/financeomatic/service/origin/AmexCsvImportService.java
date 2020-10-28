@@ -1,4 +1,4 @@
-package net.mingism.financeomatic.service;
+package net.mingism.financeomatic.service.origin;
 
 import com.opencsv.CSVReader;
 import lombok.RequiredArgsConstructor;
@@ -46,16 +46,16 @@ public class AmexCsvImportService implements CsvImportService {
             // todo: use that builder thingy
             List<String[]> values = new CSVReader(new FileReader(csvFile)).readAll();
 
-            return values.stream().map(value -> {
+            return values.subList(1, values.size()).stream().map(value -> {
 
                 LOGGER.trace("Parsed csv values {}", Arrays.toString(value));
 
                 StatementRecord statementRecord = new StatementRecord();
                 statementRecord.setSource(Source.AMEX);
-                statementRecord.setAmount(Double.valueOf(value[2].replace("\"", "").trim()));
-                statementRecord.setVendor(value[3].trim());
+                statementRecord.setAmount(Double.valueOf(value[4].replace("\"", "").trim()));
+                statementRecord.setVendor(value[1].trim());
                 statementRecord.setDate(UTC_FORMATTER.parse(value[0], Instant::from));
-                statementRecord.setId(value[1].replace("\"", "").split(" ")[1]);
+                statementRecord.setId(value[0] + "-" + value[1] + "-" + value[4]);
 
                 categoryDictionary.forEach((key, category) -> {
                     if (statementRecord.getVendor().contains(key)) {

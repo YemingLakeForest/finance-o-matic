@@ -1,4 +1,4 @@
-package net.mingism.financeomatic.service;
+package net.mingism.financeomatic.service.origin;
 
 import com.opencsv.CSVReader;
 import lombok.RequiredArgsConstructor;

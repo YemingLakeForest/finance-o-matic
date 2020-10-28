@@ -4,8 +4,8 @@ import net.mingism.financeomatic.domain.StatementRecord;
 
 import java.util.List;
 
-public interface CsvImportService {
+public interface SourceAndDump {
 
-    List<StatementRecord> importFrom(String csvFile);
-
+    List<StatementRecord> source();
+    void dump(List<StatementRecord> records);
 }

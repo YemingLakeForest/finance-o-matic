@@ -1,5 +1,8 @@
 package net.mingism.financeomatic.service;
 
+import net.mingism.financeomatic.service.origin.AmexCsvImportService;
+import net.mingism.financeomatic.service.origin.CategoryDictionaryImporter;
+import net.mingism.financeomatic.service.origin.CsvCategoryDictionaryImporter;
 import org.junit.Before;
 import org.junit.Test;
 

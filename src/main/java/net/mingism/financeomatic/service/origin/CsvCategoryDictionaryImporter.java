@@ -1,4 +1,4 @@
-package net.mingism.financeomatic.service;
+package net.mingism.financeomatic.service.origin;
 
 import com.opencsv.CSVReader;
 import org.springframework.beans.factory.annotation.Value;
