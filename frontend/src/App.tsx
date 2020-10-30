@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import {createMuiTheme, makeStyles} from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
@@ -27,7 +27,6 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import { ThemeProvider } from '@material-ui/styles';
-
 
 function Copyright() {
     return (
@@ -64,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        backgroundColor: '#424242',
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -178,38 +178,40 @@ export const App: React.FC = () => {
                         </IconButton>
                     </div>
                     <Divider />
-                    <List><div>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <DashboardIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Dashboard" />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <ShoppingCartIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Orders" />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <PeopleIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Customers" />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <BarChartIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Reports" />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <LayersIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Integrations" />
-                        </ListItem>
-                    </div></List>
+                    <List>
+                        <div>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <DashboardIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Dashboard" />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <ShoppingCartIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Orders" />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <PeopleIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Customers" />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <BarChartIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Reports" />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <LayersIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Integrations" />
+                            </ListItem>
+                        </div>
+                    </List>
                     <Divider />
                 </Drawer>
                 <main className={classes.content}>
@@ -218,18 +220,15 @@ export const App: React.FC = () => {
                         <Grid container spacing={3}>
                             {/* Chart */}
                             <Grid item xs={12} md={8} lg={9}>
-                                <Paper className={fixedHeightPaper}>
-                                </Paper>
+                                <Paper className={fixedHeightPaper}></Paper>
                             </Grid>
                             {/* Recent Deposits */}
                             <Grid item xs={12} md={4} lg={3}>
-                                <Paper className={fixedHeightPaper}>
-                                </Paper>
+                                <Paper className={fixedHeightPaper}></Paper>
                             </Grid>
                             {/* Recent Orders */}
                             <Grid item xs={12}>
-                                <Paper className={classes.paper}>
-                                </Paper>
+                                <Paper className={classes.paper}></Paper>
                             </Grid>
                         </Grid>
                         <Box pt={4}>
